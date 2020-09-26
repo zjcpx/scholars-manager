@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.scholars.mapper.AnnoQaMapper" >
+  <resultMap id="BaseResultMap" type="com.scholars.pojo.AnnoQa" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="questionContent" property="questioncontent" jdbcType="VARCHAR" />
+    <result column="questionTime" property="questiontime" jdbcType="TIMESTAMP" />
+    <result column="questionAnswers" property="questionanswers" jdbcType="VARCHAR" />
+    <result column="annoName" property="annoname" jdbcType="VARCHAR" />
+    <result column="answerTime" property="answertime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, questionContent, questionTime, questionAnswers, annoName, answerTime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.scholars.pojo.AnnoQaExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from anno_qa
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from anno_qa
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from anno_qa
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.scholars.pojo.AnnoQaExample" >
+    delete from anno_qa
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.scholars.pojo.AnnoQa" >
+    insert into anno_qa (id, questionContent, questionTime, 
+      questionAnswers, annoName, answerTime
+      )
+    values (#{id,jdbcType=BIGINT}, #{questioncontent,jdbcType=VARCHAR}, #{questiontime,jdbcType=TIMESTAMP}, 
+      #{questionanswers,jdbcType=VARCHAR}, #{annoname,jdbcType=VARCHAR}, #{answertime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.scholars.pojo.AnnoQa" >
+    insert into anno_qa
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="questioncontent != null" >
+        questionContent,
+      </if>
+      <if test="questiontime != null" >
+        questionTime,
+      </if>
+      <if test="questionanswers != null" >
+        questionAnswers,
+      </if>
+      <if test="annoname != null" >
+        annoName,
+      </if>
+      <if test="answertime != null" >
+        answerTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="questioncontent != null" >
+        #{questioncontent,jdbcType=VARCHAR},
+      </if>
+      <if test="questiontime != null" >
+        #{questiontime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="questionanswers != null" >
+        #{questionanswers,jdbcType=VARCHAR},
+      </if>
+      <if test="annoname != null" >
+        #{annoname,jdbcType=VARCHAR},
+      </if>
+      <if test="answertime != null" >
+        #{answertime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.scholars.pojo.AnnoQaExample" resultType="java.lang.Integer" >
+    select count(*) from anno_qa
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update anno_qa
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.questioncontent != null" >
+        questionContent = #{record.questioncontent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.questiontime != null" >
+        questionTime = #{record.questiontime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.questionanswers != null" >
+        questionAnswers = #{record.questionanswers,jdbcType=VARCHAR},
+      </if>
+      <if test="record.annoname != null" >
+        annoName = #{record.annoname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.answertime != null" >
+        answerTime = #{record.answertime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update anno_qa
+    set id = #{record.id,jdbcType=BIGINT},
+      questionContent = #{record.questioncontent,jdbcType=VARCHAR},
+      questionTime = #{record.questiontime,jdbcType=TIMESTAMP},
+      questionAnswers = #{record.questionanswers,jdbcType=VARCHAR},
+      annoName = #{record.annoname,jdbcType=VARCHAR},
+      answerTime = #{record.answertime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.scholars.pojo.AnnoQa" >
+    update anno_qa
+    <set >
+      <if test="questioncontent != null" >
+        questionContent = #{questioncontent,jdbcType=VARCHAR},
+      </if>
+      <if test="questiontime != null" >
+        questionTime = #{questiontime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="questionanswers != null" >
+        questionAnswers = #{questionanswers,jdbcType=VARCHAR},
+      </if>
+      <if test="annoname != null" >
+        annoName = #{annoname,jdbcType=VARCHAR},
+      </if>
+      <if test="answertime != null" >
+        answerTime = #{answertime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.scholars.pojo.AnnoQa" >
+    update anno_qa
+    set questionContent = #{questioncontent,jdbcType=VARCHAR},
+      questionTime = #{questiontime,jdbcType=TIMESTAMP},
+      questionAnswers = #{questionanswers,jdbcType=VARCHAR},
+      annoName = #{annoname,jdbcType=VARCHAR},
+      answerTime = #{answertime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
