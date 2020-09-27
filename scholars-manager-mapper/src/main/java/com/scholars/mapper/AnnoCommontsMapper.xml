@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.scholars.mapper.AnnoCommontsMapper" >
+  <resultMap id="BaseResultMap" type="com.scholars.pojo.AnnoCommonts" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="announceName" property="announcename" jdbcType="VARCHAR" />
+    <result column="commUser" property="commuser" jdbcType="VARCHAR" />
+    <result column="commType" property="commtype" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, announceName, commUser, commType, createTime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.scholars.pojo.AnnoCommontsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from anno_commonts
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from anno_commonts
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from anno_commonts
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.scholars.pojo.AnnoCommontsExample" >
+    delete from anno_commonts
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.scholars.pojo.AnnoCommonts" >
+    insert into anno_commonts (id, announceName, commUser, 
+      commType, createTime)
+    values (#{id,jdbcType=BIGINT}, #{announcename,jdbcType=VARCHAR}, #{commuser,jdbcType=VARCHAR}, 
+      #{commtype,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.scholars.pojo.AnnoCommonts" >
+    insert into anno_commonts
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="announcename != null" >
+        announceName,
+      </if>
+      <if test="commuser != null" >
+        commUser,
+      </if>
+      <if test="commtype != null" >
+        commType,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="announcename != null" >
+        #{announcename,jdbcType=VARCHAR},
+      </if>
+      <if test="commuser != null" >
+        #{commuser,jdbcType=VARCHAR},
+      </if>
+      <if test="commtype != null" >
+        #{commtype,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.scholars.pojo.AnnoCommontsExample" resultType="java.lang.Integer" >
+    select count(*) from anno_commonts
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update anno_commonts
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.announcename != null" >
+        announceName = #{record.announcename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commuser != null" >
+        commUser = #{record.commuser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commtype != null" >
+        commType = #{record.commtype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update anno_commonts
+    set id = #{record.id,jdbcType=BIGINT},
+      announceName = #{record.announcename,jdbcType=VARCHAR},
+      commUser = #{record.commuser,jdbcType=VARCHAR},
+      commType = #{record.commtype,jdbcType=VARCHAR},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.scholars.pojo.AnnoCommonts" >
+    update anno_commonts
+    <set >
+      <if test="announcename != null" >
+        announceName = #{announcename,jdbcType=VARCHAR},
+      </if>
+      <if test="commuser != null" >
+        commUser = #{commuser,jdbcType=VARCHAR},
+      </if>
+      <if test="commtype != null" >
+        commType = #{commtype,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.scholars.pojo.AnnoCommonts" >
+    update anno_commonts
+    set announceName = #{announcename,jdbcType=VARCHAR},
+      commUser = #{commuser,jdbcType=VARCHAR},
+      commType = #{commtype,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

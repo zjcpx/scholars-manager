@@ -1,0 +1,38 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.zjcpx</groupId>
+    <artifactId>zjcpx-parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <groupId>com.zjcpx</groupId>
+  <artifactId>scholars-manager</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <dependencies>
+  	<dependency>
+  		<groupId>com.zjcpx</groupId>
+  		<artifactId>zjcpx-common</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
+  <modules>
+  	<module>scholars-manager-pojo</module>
+  	<module>scholars-manager-mapper</module>
+  	<module>scholars-manager-service</module>
+  	<module>scholars-manager-web</module>
+  </modules>
+  <build>
+	<!-- 配置插件 -->
+	<plugins>
+		<plugin>
+			<groupId>org.apache.tomcat.maven</groupId>
+			<artifactId>tomcat7-maven-plugin</artifactId>
+			<configuration>
+				<port>8080</port>
+				<path>/</path>
+			</configuration>
+		</plugin>
+	</plugins>
+</build>
+</project>
