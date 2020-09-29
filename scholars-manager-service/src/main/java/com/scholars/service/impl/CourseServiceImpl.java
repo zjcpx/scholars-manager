@@ -80,7 +80,7 @@ public class CourseServiceImpl implements ICourseService {
 		example.setOrderByClause(sort+" "+order);
 		
 		PageHelper.startPage(page, rows);
-		List<Course> list = courseMapper.selectByExample(example);
+		List<Course> list = courseMapper.selectByExampleWithBLOBs(example);
 		PageInfo<Course> info = new PageInfo<Course>(list);
 		
 		result.setRows(list);

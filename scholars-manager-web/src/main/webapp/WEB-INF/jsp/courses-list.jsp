@@ -46,7 +46,7 @@
 </div>
 <!-- 右键菜单 -->
 <div id = "annoOpMenu" class="easyui-menu" style="width:80px;display:none;">
-	<div onclick = 'addAnno()' iconCls = 'icon-add'>新建</div>
+	<div onclick = 'addCourse()' iconCls = 'icon-add'>新建</div>
 	<div onclick = 'editAnno()' iconCls = 'icon-edit'>编辑</div>
 	<div onclick = 'removeAnno()' iconCls = 'icon-remove'>删除</div>
 </div>
@@ -175,15 +175,15 @@
 	}
 		
 	//增加公告
-	addAnno = function(){
+	addCourse = function(){
 		var tabs = $("#tabs");
-		var tab = tabs.tabs("getTab",'新增公告');
+		var tab = tabs.tabs("getTab",'新增课程');
 		if(tab){
-			tabs.tabs("select",'新增公告');
+			tabs.tabs("select",'新增课程');
 		}else{
 	        tabs.tabs('add',{
-	            title:'新增公告',
-	            href: 'anno-add',
+	            title:'新增课程',
+	            href: 'course-add',
 	            closable:true,
 	            bodyCls:"content"
 	        });
@@ -250,7 +250,7 @@
 	$(function(){
 		$("#coursedatagrid").datagrid({
 			title:'公告明细',
-			url:'anno/annoList2',
+			url:'/Course/grid',
 			pagination:true,
 			pageSize:30,
 			pageList:[30,60,90],
@@ -263,73 +263,27 @@
 			sortOrder:'desc',
 			striped:true,
 			columns:[[
-
-/*private Long ;
-
-    private String ;
-
-    private String ;
-
-    private String ;
-
-    private String memo;
-
-    private Date createtime;
-
-    private Date modifytime;
-
-    private Date dateline;
-
-    private String author;*/
-
 				{field:'id',width:80,title:'序号',checkbox:true},
-				{field:'coursename',width:100,title:'课程名称',sortable:true,editor:{
-						type:'validatebox',
-						options:{
-							required:true,
-						}
-					},
-				},
-				{field:'scores',width:350,title:'课程学分',editor:{
-					type : 'validatebox',
-					options : {
-						required:true,
-					}
-				}},
-				{field:'studyperson',width:60,title:'必修人员',sortable:true,editor:{
-					type:'combobox',
-					options : {
-						required:true,
-						editable:false,
-						url:'/Role/list',
-						valueField:'rolename',
-						textField:'rolename'
-					}
-				}},
-
-				{field:'score',width:30,title:'学习积分',sortable:true,editor:{
-					type:'numberbox',
-					options:{
-						required:true,
-						min:0,
-						max:99,
-						precision:0,
-						missingMessage:'请输入学习积分',
-						invalidMessage:'积分需大于0，小于100'
-					}
-				}},
-				{field:'attachments',width:80,title:'附件'},
-				{field:'createtime',width:70,title:'初建时间',formatter:function(param){
+				{field:'coursename',width:100,title:'课程名称',sortable:true},
+				{field:'coursecontents',width:100,title:'课程内容'},
+				{field:'scores',width:30,title:'课程学分',sortable:true},
+				{field:'studyperson',width:60,title:'必修人员'},
+				{field:'author',width:60,title:'课程作者',sortable:true},
+				{field:'dateline',width:70,title:'完成时间',sortable:true,formatter:function(param){
+					return new Date(param).format("yyyy/MM/dd hh:mm:ss");}},
+				{field:'createtime',width:70,title:'初建时间',sortable:true,formatter:function(param){
 					return new Date(param).format("yyyy/MM/dd hh:mm:ss");
 				}},
-				{field:'modifytime',width:70,title:'修改时间',formatter:TAOTAO.formatDateTime},
+				{field:'modifytime',width:70,title:'修改时间',sortable:true,formatter:function(param){
+					return new Date(param).format("yyyy/MM/dd hh:mm:ss");
+				}},
 			]],
 			toolbar:[{
 				text:'新增',
 				iconCls:'icon-add',
 				handler:function(){
 					//新增tab方式实现增加公告
-					addAnno();
+					addCourse();
 				}
 			},'-',{
 				text:'删除',

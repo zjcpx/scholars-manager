@@ -12,6 +12,9 @@
     <result column="dateline" property="dateline" jdbcType="TIMESTAMP" />
     <result column="author" property="author" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.scholars.pojo.Course" extends="BaseResultMap" >
+    <result column="coursecontents" property="coursecontents" jdbcType="LONGVARCHAR" />
+  </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -73,6 +76,25 @@
   <sql id="Base_Column_List" >
     id, coursename, studyperson, scores, memo, createTime, modifyTime, dateline, author
   </sql>
+  <sql id="Blob_Column_List" >
+    coursecontents
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.scholars.pojo.CourseExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from course
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.scholars.pojo.CourseExample" >
     select
     <if test="distinct" >
@@ -87,9 +109,11 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from course
     where id = #{id,jdbcType=BIGINT}
   </select>
@@ -106,12 +130,12 @@
   <insert id="insert" parameterType="com.scholars.pojo.Course" >
     insert into course (id, coursename, studyperson, 
       scores, memo, createTime, 
-      modifyTime, dateline, author
-      )
+      modifyTime, dateline, author, 
+      coursecontents)
     values (#{id,jdbcType=BIGINT}, #{coursename,jdbcType=VARCHAR}, #{studyperson,jdbcType=VARCHAR}, 
       #{scores,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
-      #{modifytime,jdbcType=TIMESTAMP}, #{dateline,jdbcType=TIMESTAMP}, #{author,jdbcType=VARCHAR}
-      )
+      #{modifytime,jdbcType=TIMESTAMP}, #{dateline,jdbcType=TIMESTAMP}, #{author,jdbcType=VARCHAR}, 
+      #{coursecontents,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.scholars.pojo.Course" >
     insert into course
@@ -143,6 +167,9 @@
       <if test="author != null" >
         author,
       </if>
+      <if test="coursecontents != null" >
+        coursecontents,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -171,6 +198,9 @@
       </if>
       <if test="author != null" >
         #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="coursecontents != null" >
+        #{coursecontents,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -210,7 +240,26 @@
       <if test="record.author != null" >
         author = #{record.author,jdbcType=VARCHAR},
       </if>
+      <if test="record.coursecontents != null" >
+        coursecontents = #{record.coursecontents,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update course
+    set id = #{record.id,jdbcType=BIGINT},
+      coursename = #{record.coursename,jdbcType=VARCHAR},
+      studyperson = #{record.studyperson,jdbcType=VARCHAR},
+      scores = #{record.scores,jdbcType=VARCHAR},
+      memo = #{record.memo,jdbcType=VARCHAR},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      modifyTime = #{record.modifytime,jdbcType=TIMESTAMP},
+      dateline = #{record.dateline,jdbcType=TIMESTAMP},
+      author = #{record.author,jdbcType=VARCHAR},
+      coursecontents = #{record.coursecontents,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -257,7 +306,23 @@
       <if test="author != null" >
         author = #{author,jdbcType=VARCHAR},
       </if>
+      <if test="coursecontents != null" >
+        coursecontents = #{coursecontents,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.scholars.pojo.Course" >
+    update course
+    set coursename = #{coursename,jdbcType=VARCHAR},
+      studyperson = #{studyperson,jdbcType=VARCHAR},
+      scores = #{scores,jdbcType=VARCHAR},
+      memo = #{memo,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      modifyTime = #{modifytime,jdbcType=TIMESTAMP},
+      dateline = #{dateline,jdbcType=TIMESTAMP},
+      author = #{author,jdbcType=VARCHAR},
+      coursecontents = #{coursecontents,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.scholars.pojo.Course" >

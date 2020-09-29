@@ -21,6 +21,8 @@ public class Course {
 
     private String author;
 
+    private String coursecontents;
+
     public Long getId() {
         return id;
     }
@@ -91,5 +93,13 @@ public class Course {
 
     public void setAuthor(String author) {
         this.author = author == null ? null : author.trim();
+    }
+
+    public String getCoursecontents() {
+        return coursecontents;
+    }
+
+    public void setCoursecontents(String coursecontents) {
+        this.coursecontents = coursecontents == null ? null : coursecontents.trim();
     }
 }
