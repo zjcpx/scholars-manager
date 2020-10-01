@@ -113,4 +113,10 @@ public class RoleServiceImpl implements IRoleService {
 		return true;
 	}
 
+	@Override
+	public String originRoleName(Long id) {
+		Role role = roleMapper.selectByPrimaryKey(id);
+		return role.getRolename();
+	}
+
 }

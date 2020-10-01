@@ -14,5 +14,6 @@ public interface IDepartmentService {
 	TaotaoResult DeleteDepartment(Long id);
 	TaotaoResult updataDepartment(Department dep);
 	Boolean isSameDepName(String depName);
+	String originDep(Long id);
 	
 }

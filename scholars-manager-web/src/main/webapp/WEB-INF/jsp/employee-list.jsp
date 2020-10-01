@@ -279,8 +279,8 @@
 						$("#empdatagrid").datagrid('insertRow',{
 							index:0,
 							row:{
-								'createtime': new Date(),
-								'modifytime': new Date()
+								/*'createtime': new Date(),
+								'modifytime': new Date()*/
 							}
 						});
 						$("#empdatagrid").datagrid('beginEdit',0);
@@ -387,48 +387,29 @@
 
 				$.post(url,rowData,function(data){
 					if (data.status == 200) {
-						$("#empdatagrid").datagrid('load');
-						$("#empdatagrid").datagrid('unselectAll');
 						$("#empdatagrid").datagrid('acceptChanges');
 						$.messager.alert('提示',message);
-						currentEditRow = undefined;
+						
+					}else{
+						$("#empdatagrid").datagrid('rejectChanges');
+						$.messager.alert('提示',data.msg);
+						
 					}
+					$("#empdatagrid").datagrid('load');
+					$("#empdatagrid").datagrid('unselectAll');
+					currentEditRow = undefined;
 				})
 			}										
 		});
 		$('.datagrid-header div').css('textAlign', 'center');
 	});
+
+   //多条件组合查找
 	employeeSearch = function(){
-		console.log('serach');
-		//获取指定的创建时间
-		var createdate = $("#createtime").datetimebox('getValue');
-		var time1 = createdate;
-		//如果查询条件中的创建时间不未空
-		if(createdate != ""){
-			//将创建时间格式成时间戳格式的时间对象
-			createdate = new Date(new Date(createdate).getTime());
-		}else{	//创建时间没有指定，将查询时间指定未空
-			createdate = new Date(null);
-		}
-		//将查询条件中创建时间设置为时间对象（保证时间可以被后台接受）
-		$("#createtime").textbox('setValue',createdate);
-		//处理修改时间的格式问题，方法同“创建日期”
-		var modifytime = $("#modifytime").datetimebox('getValue');
-		//console.log(typeof(modfytime));
-		var time2 = modifytime;
-		if(modifytime != ""){	
-			modifytime = new Date(new Date(modifytime).getTime());	
-		}else{
-			modifytime = new Date(null);
-		}
-		$("#modifytime").textbox('setValue',modifytime);
 		$('#empdatagrid').datagrid('load',serializeFormToObject($('#employee_search').form()));
-		//为保持页面显示的友好
-		$("#createtime").textbox('setValue',time1);
-		$("#modifytime").textbox('setValue',time2);
-		
 	}
 
+	//清空查询条件查询
 	cleanSearch = function(){
 		$('#employee_search').find('input').val('');
 		$('#empdatagrid').datagrid('load',{});

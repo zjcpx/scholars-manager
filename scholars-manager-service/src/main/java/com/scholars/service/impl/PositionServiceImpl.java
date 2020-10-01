@@ -107,5 +107,10 @@ public class PositionServiceImpl implements IPositionService {
 		}
 		return true;
 	}
+	@Override
+	public String originPosi(Long id) {
+		Position position = positiomMapper.selectByPrimaryKey(id);
+		return position.getPositionname();
+	}
 
 }

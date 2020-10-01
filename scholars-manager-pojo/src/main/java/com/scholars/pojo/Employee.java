@@ -2,6 +2,8 @@ package com.scholars.pojo;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Employee {
     private Long id;
 
@@ -25,8 +27,10 @@ public class Employee {
 
     private Integer score;
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date createtime;
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date modifytime;
 
     private String nickname;

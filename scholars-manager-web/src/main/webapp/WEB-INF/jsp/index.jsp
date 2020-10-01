@@ -101,9 +101,9 @@
 	         	</ul>
          	</li>
          	<li>
-         		<span>网站内容管理</span>
+         		<span>课程管理</span>
          		<ul>
-	         		<li data-options="attributes:{'url':'content-category'}">内容分类管理</li>
+	         		<li data-options="attributes:{'url':'courses-list'}">课程清单</li>
 	         		<li data-options="attributes:{'url':'content'}">内容管理</li>
 	         	</ul>
          	</li>

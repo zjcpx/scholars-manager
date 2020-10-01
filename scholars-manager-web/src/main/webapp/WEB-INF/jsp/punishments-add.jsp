@@ -4,12 +4,14 @@
 <script type="text/javascript" charset="utf-8" src="/js/kindeditor-4.1.10/lang/zh_CN.js"></script>
 <div style="padding:10px 10px 10px 10px">
 	<form id="annoPunishmentsForm" class="itemForm" method="post">
-		
+		<input type="hidden" id="id" name="id">
+		<input class="" id="persons" name="person" style="display: none;"></input>
 	    <table cellpadding="5">
 	        <tr>
-	            <td >被处罚人：</td>
+	            <td width="100px">被处罚人：</td>
 	            <td>
-	            	<input id="person" name="depname" type="text" data-options="required:true" style="width: 280px;" ></input>
+	            	<input class="easyui-combobox" id="tttt" type="text" ></input>
+	            	<input type="text" id="ttttt" style="display: none" />
 	            </td>
 	        </tr>
 	        <tr>
@@ -28,12 +30,12 @@
 	            </td>
 	        </tr>
 	       
-	        <tr>
+	      <!--   <tr>
 	            <td>处罚时间:</td>
 	            <td>
-	                 <input type="easyui-datetimebox" name="createtime" id="createtime" />
+	                 <input class="easyui-datetimebox" name="createtime" id="createtime" />
 	            </td>
-	        </tr>
+	        </tr> -->
 	        
 	    </table>
 	    
@@ -44,16 +46,35 @@
 	</div>
 </div>
 <script type="text/javascript">
-	/**/
+	$('#tttt').combobox({
+		editable:false,
+		url:'/Deportment/list',
+		valueField:'depname',
+		textField:'depname',
+
+		onSelect: function(rec){
+			$.post('/Employee/employees',{depName:rec.depname},function(data){
+				
+				if (data != null) {
+					$("#ttttt").combobox({
+						editable:false,
+						data:data,
+						valueField:'no',
+						textField:'name',
+						onSelect:function(record){
+							$("#persons").val(record.no);
+						}
+					});
+				}
+			})	
+        }
+	});
+	// console.log();
 
 	var annoPunishmentsEditor = $('#annoPunishmentsForm');
 	//页面初始化完毕后执行此方法
 	$(function(){
-		$('#person').combobox({
-			url:'/Deportment/list',
-			valueField: 'depname',    
-        	textField: 'depname', 
-		});
+		
 		//创建富文本编辑器
 		//itemAddEditor = TAOTAO.createEditor("#itemAddForm [name=desc]");
 		annoPunishmentsEditor = KindEditor.create("#annoPunishmentsForm [name=describ]", TT.kingEditorParams);
@@ -75,28 +96,8 @@
 		annoPunishmentsEditor.sync();
 		//取商品的规格
 		var paramJson = [];
-		/*$("#annoPunishmentsForm .params li").each(function(i,e){
-			var trs = $(e).find("tr");
-			var group = trs.eq(0).text();
-			var ps = [];
-			for(var i = 1;i<trs.length;i++){
-				var tr = trs.eq(i);
-				ps.push({
-					"k" : $.trim(tr.find("td").eq(0).find("span").text()),
-					"v" : $.trim(tr.find("input").val())
-				});
-			}
-			paramJson.push({
-				"group" : group,
-				"params": ps
-			});
-		});*/
-		//把json对象转换成字符串
-		/*paramJson = JSON.stringify(paramJson);
-		$("#annoPunishmentsForm [name=itemParams]").val(paramJson);*/
 		
-		//ajax的post方式提交表单
-		//$("#itemAddForm").serialize()将表单序列号为key-value形式的字符串
+
 		$.post("/Punishments/save",$("#annoPunishmentsForm").serialize(), function(data){
 			if(data.status == 200){
 				$.messager.alert('提示','新增公告成功!');

@@ -1,7 +1,13 @@
 package com.scholars.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -33,7 +39,7 @@ public class AnnoAnnouncementsController {
 	 * 
 		 * 获取全部公告清单. <br/> 
 		* TODO(这里描述这个方法适用条件 – 可选).<br/> 
-		* TODO(这里描述这个方法的执行流程 – 可选).<br/> 
+		* TODO(这里描述这个方法的执行流程 – 可选).<br/> .
 		* TODO(这里描述这个方法的使用方法 – 可选).<br/> 
 		* TODO(这里描述这个方法的注意事项 – 可选).<br/> 
 		* date: 2020-8-21 16:02:32.<br/>
@@ -43,6 +49,14 @@ public class AnnoAnnouncementsController {
 		* @return 
 		* @since JDK 1.8
 	 */
+	
+	@InitBinder
+	public void dateHandler(WebDataBinder wdb){
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	    sdf.setLenient(true);
+	    wdb.registerCustomEditor(Date.class,new CustomDateEditor(sdf,true));
+	}
+	
 	@RequestMapping("/list")
 	@ResponseBody
 	public EUDataGridResult getAnnoList(Integer page, Integer rows) {

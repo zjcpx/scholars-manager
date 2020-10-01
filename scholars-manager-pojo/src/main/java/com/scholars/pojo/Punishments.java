@@ -7,13 +7,13 @@ public class Punishments {
 
     private String resone;
 
-    private String describ;
-
     private Integer result;
 
     private String person;
 
     private Date createtime;
+
+    private String describ;
 
     public Long getId() {
         return id;
@@ -29,14 +29,6 @@ public class Punishments {
 
     public void setResone(String resone) {
         this.resone = resone == null ? null : resone.trim();
-    }
-
-    public String getDescrib() {
-        return describ;
-    }
-
-    public void setDescrib(String describ) {
-        this.describ = describ == null ? null : describ.trim();
     }
 
     public Integer getResult() {
@@ -61,5 +53,13 @@ public class Punishments {
 
     public void setCreatetime(Date createtime) {
         this.createtime = createtime;
+    }
+
+    public String getDescrib() {
+        return describ;
+    }
+
+    public void setDescrib(String describ) {
+        this.describ = describ == null ? null : describ.trim();
     }
 }

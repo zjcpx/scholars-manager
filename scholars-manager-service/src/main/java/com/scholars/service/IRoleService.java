@@ -14,4 +14,5 @@ public interface IRoleService {
 	TaotaoResult UpdateRole(Role role);
 	TaotaoResult DeleteRole(Long id);
 	boolean isSameName(String roleName);
+	String originRoleName(Long id);
 }

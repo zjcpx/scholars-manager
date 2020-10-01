@@ -14,4 +14,5 @@ public interface IPositionService {
 	TaotaoResult updataPosition(Position position);
 	TaotaoResult deletePosition(Long id);
 	Boolean isSamePosiName(String posiName);
+	String originPosi(Long id);
 }

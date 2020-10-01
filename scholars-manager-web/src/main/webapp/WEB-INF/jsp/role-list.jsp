@@ -272,8 +272,8 @@
 						$("#Roledatagrid").datagrid('insertRow',{
 							index: 0,	// 索引从0开始
 							row: {
-								createtime: new Date(),
-								modifytime:new Date()
+								/*'createtime': new Date().toString(),
+								'modifytime': new Date().toString(),*/
 							}
 						})
 						$("#Roledatagrid").datagrid('beginEdit',0);
@@ -382,11 +382,15 @@
 				$.post(url,rowData,function(data){
 					if (data.status == 200) {
 						$.messager.alert('提示',message);
-						currEditRow = undefined;
-						$("#Roledatagrid").datagrid('unselectAll');
+						$("#Roledatagrid").datagrid('acceptChanges');
+						
 					}else{
-						$.messager.alert('提示',data.get(msg));
+						$.messager.alert('提示',data.msg);
+						$("#Roledatagrid").datagrid('rejectChanges');
 					}
+					$("#Roledatagrid").datagrid('load');
+					$("#Roledatagrid").datagrid('unselectAll');
+					currEditRow = undefined;
 				})
 				
 			},

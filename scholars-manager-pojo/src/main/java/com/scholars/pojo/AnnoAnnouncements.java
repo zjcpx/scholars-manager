@@ -2,6 +2,8 @@ package com.scholars.pojo;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class AnnoAnnouncements {
     private Long id;
 
@@ -9,12 +11,14 @@ public class AnnoAnnouncements {
 
     private String type;
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date createtime;
 
     private Integer score;
 
     private String attachments;
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date modifytime;
 
     private String content;

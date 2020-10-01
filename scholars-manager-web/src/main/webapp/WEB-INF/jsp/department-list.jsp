@@ -165,8 +165,6 @@
 			$("#Depdatagrid").datagrid('insertRow',{
 				index: 0,	// 索引从0开始
 				row: {
-					createtime: new Date(),
-					modifytime:new Date()
 				}
 			})
 			$("#Depdatagrid").datagrid('beginEdit',0);
@@ -340,8 +338,7 @@
 				if(update.length > 0){
 					url = '/Deportment/updata';
 					message = '更新部门成功';
-					rowData.createtime = new Date(rowData.createtime);
-					rowData.modifytime = new Date(rowData.modifytime);
+					
 				}
 				$.post(url,rowData,function(data){
 					if (data.status == 200) {
@@ -350,7 +347,7 @@
 						$("#Depdatagrid").datagrid('unselectAll');
 						$("#Depdatagrid").datagrid("acceptChanges");
 					}else{
-						$.messager.alert('提示',data.get(msg));
+						$.messager.alert('提示',data.msg);
 					}
 				})
 				

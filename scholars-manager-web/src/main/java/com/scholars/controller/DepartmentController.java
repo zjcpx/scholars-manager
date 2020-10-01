@@ -1,14 +1,20 @@
 package com.scholars.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.scholars.pojo.Department;
 import com.scholars.service.IDepartmentService;
+import com.scholars.service.IEmployeeService;
 import com.zjcpx.pojo.EUDataGridResult;
 import com.zjcpx.pojo.TaotaoResult;
 
@@ -29,6 +35,16 @@ public class DepartmentController {
 
 	@Autowired
 	private IDepartmentService departmentService;
+
+	@Autowired
+	private IEmployeeService employeeService;
+	
+	@InitBinder
+	public void dateHandler(WebDataBinder wdb){
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	    sdf.setLenient(true);
+	    wdb.registerCustomEditor(Date.class,new CustomDateEditor(sdf,true));
+	}
 	
 	@RequestMapping("/list")
 	@ResponseBody
@@ -59,8 +75,11 @@ public class DepartmentController {
 	@ResponseBody
 	public TaotaoResult UpdataDepartment(Department dep) {
 		String depname = dep.getDepname();
+		Long id = dep.getId();
 		if(departmentService.isSameDepName(depname)) {
+			String originDep = departmentService.originDep(id);
 			departmentService.updataDepartment(dep);
+			employeeService.changeInfo(null, null,depname, originDep, null, null);
 			return TaotaoResult.ok();
 		}
 		return TaotaoResult.build(500, "部门名称重复");
