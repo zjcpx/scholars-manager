@@ -2,18 +2,14 @@ package com.scholars.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.DigestUtils;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -47,13 +43,6 @@ public class FileController {
 	private IAnnosService annoservice;
 	@Autowired
 	private IEmployeeService EmployeeService;
-	
-	@InitBinder
-	public void dateHandler(WebDataBinder wdb){
-	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-	    sdf.setLenient(true);
-	    wdb.registerCustomEditor(Date.class,new CustomDateEditor(sdf,true));
-	}
 
 	@RequestMapping(value = "/input", method = RequestMethod.POST)
 	@ResponseBody

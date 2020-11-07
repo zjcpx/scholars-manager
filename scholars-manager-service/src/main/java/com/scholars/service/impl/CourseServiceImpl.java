@@ -46,7 +46,7 @@ public class CourseServiceImpl implements ICourseService {
 			}
 			String coursename = course.getCoursename();
 			if(StringUtils.isNotBlank(coursename)) {
-				criteria.andCoursenameLike("%"+"李"+"%");
+				criteria.andCoursenameLike("%"+coursename+"%");
 			}
 			Date createtime = course.getCreatetime();
 			if(createtime != null) {
@@ -76,6 +76,10 @@ public class CourseServiceImpl implements ICourseService {
 			if(StringUtils.isNotBlank(studyperson)) {
 				criteria.andStudypersonLike("%"+studyperson+"%");
 			}
+			String type = course.getCoursetype();
+			if (StringUtils.isNotBlank(type)) {
+				criteria.andCoursetypeEqualTo(type);
+			}
 		}
 		example.setOrderByClause(sort+" "+order);
 		
@@ -102,7 +106,8 @@ public class CourseServiceImpl implements ICourseService {
 		Long id = course.getId();
 		Course course2 = courseMapper.selectByPrimaryKey(id);
 		course.setCreatetime(course2.getCreatetime());
-		courseMapper.updateByPrimaryKey(course);
+		course.setModifytime(new Date());
+		courseMapper.updateByPrimaryKeyWithBLOBs(course);
 		return TaotaoResult.ok();
 	}
 

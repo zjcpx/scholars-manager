@@ -2,6 +2,7 @@ package com.scholars.controller;
 
 
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.WebRequest;
 
 import com.scholars.pojo.AnnoType;
 import com.scholars.service.IAnnoTypeService;
@@ -33,15 +35,18 @@ import com.scholars.service.IAnnoTypeService;
 @RequestMapping("/annotype")
 public class AnnoTypeController {
 
+	//将字符串转换为Date类
+    @InitBinder
+    public void initBinder(WebDataBinder binder, WebRequest request) {
+        //转换日期格式
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        //注册自定义的编辑器
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+        
+    }
+    
 	@Autowired
 	private IAnnoTypeService annoTypeService;
-	
-	@InitBinder
-	public void dateHandler(WebDataBinder wdb){
-	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-	    sdf.setLenient(true);
-	    wdb.registerCustomEditor(Date.class,new CustomDateEditor(sdf,true));
-	}
 	
 	@RequestMapping("/annoTypeList")
 	@ResponseBody

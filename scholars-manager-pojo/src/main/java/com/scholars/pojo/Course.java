@@ -9,19 +9,21 @@ public class Course {
 
     private String coursename;
 
+    private String coursetype;
+
     private String studyperson;
 
     private String scores;
 
     private String memo;
 
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createtime;
 
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date modifytime;
 
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date dateline;
 
     private String author;
@@ -42,6 +44,14 @@ public class Course {
 
     public void setCoursename(String coursename) {
         this.coursename = coursename == null ? null : coursename.trim();
+    }
+
+    public String getCoursetype() {
+        return coursetype;
+    }
+
+    public void setCoursetype(String coursetype) {
+        this.coursetype = coursetype == null ? null : coursetype.trim();
     }
 
     public String getStudyperson() {

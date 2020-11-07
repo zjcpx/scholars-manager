@@ -4,12 +4,10 @@
   <resultMap id="BaseResultMap" type="com.scholars.pojo.Punishments" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="resone" property="resone" jdbcType="VARCHAR" />
+    <result column="describ" property="describ" jdbcType="VARCHAR" />
     <result column="result" property="result" jdbcType="INTEGER" />
     <result column="person" property="person" jdbcType="VARCHAR" />
     <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.scholars.pojo.Punishments" extends="BaseResultMap" >
-    <result column="describ" property="describ" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -70,27 +68,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, resone, result, person, createtime
+    id, resone, describ, result, person, createtime
   </sql>
-  <sql id="Blob_Column_List" >
-    describ
-  </sql>
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.scholars.pojo.PunishmentsExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from punishments
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.scholars.pojo.PunishmentsExample" >
     select
     <if test="distinct" >
@@ -105,11 +84,9 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from punishments
     where id = #{id,jdbcType=BIGINT}
   </select>
@@ -124,11 +101,11 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.scholars.pojo.Punishments" >
-    insert into punishments (id, resone, result, 
-      person, createtime, describ
+    insert into punishments (id, resone, describ, 
+      result, person, createtime
       )
-    values (#{id,jdbcType=BIGINT}, #{resone,jdbcType=VARCHAR}, #{result,jdbcType=INTEGER}, 
-      #{person,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{describ,jdbcType=LONGVARCHAR}
+    values (#{id,jdbcType=BIGINT}, #{resone,jdbcType=VARCHAR}, #{describ,jdbcType=VARCHAR}, 
+      #{result,jdbcType=INTEGER}, #{person,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.scholars.pojo.Punishments" >
@@ -140,6 +117,9 @@
       <if test="resone != null" >
         resone,
       </if>
+      <if test="describ != null" >
+        describ,
+      </if>
       <if test="result != null" >
         result,
       </if>
@@ -149,9 +129,6 @@
       <if test="createtime != null" >
         createtime,
       </if>
-      <if test="describ != null" >
-        describ,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -159,6 +136,9 @@
       </if>
       <if test="resone != null" >
         #{resone,jdbcType=VARCHAR},
+      </if>
+      <if test="describ != null" >
+        #{describ,jdbcType=VARCHAR},
       </if>
       <if test="result != null" >
         #{result,jdbcType=INTEGER},
@@ -168,9 +148,6 @@
       </if>
       <if test="createtime != null" >
         #{createtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="describ != null" >
-        #{describ,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -189,6 +166,9 @@
       <if test="record.resone != null" >
         resone = #{record.resone,jdbcType=VARCHAR},
       </if>
+      <if test="record.describ != null" >
+        describ = #{record.describ,jdbcType=VARCHAR},
+      </if>
       <if test="record.result != null" >
         result = #{record.result,jdbcType=INTEGER},
       </if>
@@ -198,22 +178,7 @@
       <if test="record.createtime != null" >
         createtime = #{record.createtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.describ != null" >
-        describ = #{record.describ,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map" >
-    update punishments
-    set id = #{record.id,jdbcType=BIGINT},
-      resone = #{record.resone,jdbcType=VARCHAR},
-      result = #{record.result,jdbcType=INTEGER},
-      person = #{record.person,jdbcType=VARCHAR},
-      createtime = #{record.createtime,jdbcType=TIMESTAMP},
-      describ = #{record.describ,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -222,6 +187,7 @@
     update punishments
     set id = #{record.id,jdbcType=BIGINT},
       resone = #{record.resone,jdbcType=VARCHAR},
+      describ = #{record.describ,jdbcType=VARCHAR},
       result = #{record.result,jdbcType=INTEGER},
       person = #{record.person,jdbcType=VARCHAR},
       createtime = #{record.createtime,jdbcType=TIMESTAMP}
@@ -235,6 +201,9 @@
       <if test="resone != null" >
         resone = #{resone,jdbcType=VARCHAR},
       </if>
+      <if test="describ != null" >
+        describ = #{describ,jdbcType=VARCHAR},
+      </if>
       <if test="result != null" >
         result = #{result,jdbcType=INTEGER},
       </if>
@@ -244,24 +213,13 @@
       <if test="createtime != null" >
         createtime = #{createtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="describ != null" >
-        describ = #{describ,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.scholars.pojo.Punishments" >
-    update punishments
-    set resone = #{resone,jdbcType=VARCHAR},
-      result = #{result,jdbcType=INTEGER},
-      person = #{person,jdbcType=VARCHAR},
-      createtime = #{createtime,jdbcType=TIMESTAMP},
-      describ = #{describ,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.scholars.pojo.Punishments" >
     update punishments
     set resone = #{resone,jdbcType=VARCHAR},
+      describ = #{describ,jdbcType=VARCHAR},
       result = #{result,jdbcType=INTEGER},
       person = #{person,jdbcType=VARCHAR},
       createtime = #{createtime,jdbcType=TIMESTAMP}

@@ -2,17 +2,21 @@ package com.scholars.pojo;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class AnnoQa {
     private Long id;
 
     private String questioncontent;
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date questiontime;
 
     private String questionanswers;
 
     private String annoname;
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date answertime;
 
     public Long getId() {

@@ -2,6 +2,8 @@ package com.scholars.pojo;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class AnnoCommonts {
     private Long id;
 
@@ -11,6 +13,7 @@ public class AnnoCommonts {
 
     private String commtype;
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date createtime;
 
     public Long getId() {

@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.scholars.pojo.Course" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="coursename" property="coursename" jdbcType="VARCHAR" />
+    <result column="coursetype" property="coursetype" jdbcType="VARCHAR" />
     <result column="studyperson" property="studyperson" jdbcType="VARCHAR" />
     <result column="scores" property="scores" jdbcType="VARCHAR" />
     <result column="memo" property="memo" jdbcType="VARCHAR" />
@@ -74,7 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, coursename, studyperson, scores, memo, createTime, modifyTime, dateline, author
+    id, coursename, coursetype, studyperson, scores, memo, createTime, modifyTime, dateline, 
+    author
   </sql>
   <sql id="Blob_Column_List" >
     coursecontents
@@ -128,14 +130,14 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.scholars.pojo.Course" >
-    insert into course (id, coursename, studyperson, 
-      scores, memo, createTime, 
-      modifyTime, dateline, author, 
-      coursecontents)
-    values (#{id,jdbcType=BIGINT}, #{coursename,jdbcType=VARCHAR}, #{studyperson,jdbcType=VARCHAR}, 
-      #{scores,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
-      #{modifytime,jdbcType=TIMESTAMP}, #{dateline,jdbcType=TIMESTAMP}, #{author,jdbcType=VARCHAR}, 
-      #{coursecontents,jdbcType=LONGVARCHAR})
+    insert into course (id, coursename, coursetype, 
+      studyperson, scores, memo, 
+      createTime, modifyTime, dateline, 
+      author, coursecontents)
+    values (#{id,jdbcType=BIGINT}, #{coursename,jdbcType=VARCHAR}, #{coursetype,jdbcType=VARCHAR}, 
+      #{studyperson,jdbcType=VARCHAR}, #{scores,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{modifytime,jdbcType=TIMESTAMP}, #{dateline,jdbcType=TIMESTAMP}, 
+      #{author,jdbcType=VARCHAR}, #{coursecontents,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.scholars.pojo.Course" >
     insert into course
@@ -145,6 +147,9 @@
       </if>
       <if test="coursename != null" >
         coursename,
+      </if>
+      <if test="coursetype != null" >
+        coursetype,
       </if>
       <if test="studyperson != null" >
         studyperson,
@@ -177,6 +182,9 @@
       </if>
       <if test="coursename != null" >
         #{coursename,jdbcType=VARCHAR},
+      </if>
+      <if test="coursetype != null" >
+        #{coursetype,jdbcType=VARCHAR},
       </if>
       <if test="studyperson != null" >
         #{studyperson,jdbcType=VARCHAR},
@@ -219,6 +227,9 @@
       <if test="record.coursename != null" >
         coursename = #{record.coursename,jdbcType=VARCHAR},
       </if>
+      <if test="record.coursetype != null" >
+        coursetype = #{record.coursetype,jdbcType=VARCHAR},
+      </if>
       <if test="record.studyperson != null" >
         studyperson = #{record.studyperson,jdbcType=VARCHAR},
       </if>
@@ -252,6 +263,7 @@
     update course
     set id = #{record.id,jdbcType=BIGINT},
       coursename = #{record.coursename,jdbcType=VARCHAR},
+      coursetype = #{record.coursetype,jdbcType=VARCHAR},
       studyperson = #{record.studyperson,jdbcType=VARCHAR},
       scores = #{record.scores,jdbcType=VARCHAR},
       memo = #{record.memo,jdbcType=VARCHAR},
@@ -268,6 +280,7 @@
     update course
     set id = #{record.id,jdbcType=BIGINT},
       coursename = #{record.coursename,jdbcType=VARCHAR},
+      coursetype = #{record.coursetype,jdbcType=VARCHAR},
       studyperson = #{record.studyperson,jdbcType=VARCHAR},
       scores = #{record.scores,jdbcType=VARCHAR},
       memo = #{record.memo,jdbcType=VARCHAR},
@@ -284,6 +297,9 @@
     <set >
       <if test="coursename != null" >
         coursename = #{coursename,jdbcType=VARCHAR},
+      </if>
+      <if test="coursetype != null" >
+        coursetype = #{coursetype,jdbcType=VARCHAR},
       </if>
       <if test="studyperson != null" >
         studyperson = #{studyperson,jdbcType=VARCHAR},
@@ -315,6 +331,7 @@
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.scholars.pojo.Course" >
     update course
     set coursename = #{coursename,jdbcType=VARCHAR},
+      coursetype = #{coursetype,jdbcType=VARCHAR},
       studyperson = #{studyperson,jdbcType=VARCHAR},
       scores = #{scores,jdbcType=VARCHAR},
       memo = #{memo,jdbcType=VARCHAR},
@@ -328,6 +345,7 @@
   <update id="updateByPrimaryKey" parameterType="com.scholars.pojo.Course" >
     update course
     set coursename = #{coursename,jdbcType=VARCHAR},
+      coursetype = #{coursetype,jdbcType=VARCHAR},
       studyperson = #{studyperson,jdbcType=VARCHAR},
       scores = #{scores,jdbcType=VARCHAR},
       memo = #{memo,jdbcType=VARCHAR},

@@ -279,8 +279,8 @@
 						$("#empdatagrid").datagrid('insertRow',{
 							index:0,
 							row:{
-								/*'createtime': new Date(),
-								'modifytime': new Date()*/
+								'createtime': new Date(),
+								'modifytime': new Date()
 							}
 						});
 						$("#empdatagrid").datagrid('beginEdit',0);
@@ -387,29 +387,26 @@
 
 				$.post(url,rowData,function(data){
 					if (data.status == 200) {
+						$("#empdatagrid").datagrid('load');
+						$("#empdatagrid").datagrid('unselectAll');
 						$("#empdatagrid").datagrid('acceptChanges');
 						$.messager.alert('提示',message);
-						
-					}else{
-						$("#empdatagrid").datagrid('rejectChanges');
-						$.messager.alert('提示',data.msg);
-						
+						currentEditRow = undefined;
 					}
-					$("#empdatagrid").datagrid('load');
-					$("#empdatagrid").datagrid('unselectAll');
-					currentEditRow = undefined;
 				})
 			}										
 		});
 		$('.datagrid-header div').css('textAlign', 'center');
 	});
-
-   //多条件组合查找
 	employeeSearch = function(){
+		
 		$('#empdatagrid').datagrid('load',serializeFormToObject($('#employee_search').form()));
+		//为保持页面显示的友好
+		$("#createtime").textbox('setValue',time1);
+		$("#modifytime").textbox('setValue',time2);
+		
 	}
 
-	//清空查询条件查询
 	cleanSearch = function(){
 		$('#employee_search').find('input').val('');
 		$('#empdatagrid').datagrid('load',{});

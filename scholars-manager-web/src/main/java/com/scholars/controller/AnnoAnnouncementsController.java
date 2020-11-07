@@ -1,5 +1,6 @@
 package com.scholars.controller;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.WebRequest;
 
 import com.scholars.pojo.AnnoAnnouncements;
 import com.scholars.service.IAnnosService;
@@ -35,11 +37,21 @@ public class AnnoAnnouncementsController {
 	@Autowired
 	private IAnnosService annosService;
 	
+	//将字符串转换为Date类
+    @InitBinder
+    public void initBinder(WebDataBinder binder, WebRequest request) {
+        //转换日期格式
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        //注册自定义的编辑器
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+        
+    }
+    
 	/**
 	 * 
 		 * 获取全部公告清单. <br/> 
 		* TODO(这里描述这个方法适用条件 – 可选).<br/> 
-		* TODO(这里描述这个方法的执行流程 – 可选).<br/> .
+		* TODO(这里描述这个方法的执行流程 – 可选).<br/> 
 		* TODO(这里描述这个方法的使用方法 – 可选).<br/> 
 		* TODO(这里描述这个方法的注意事项 – 可选).<br/> 
 		* date: 2020-8-21 16:02:32.<br/>
@@ -49,14 +61,6 @@ public class AnnoAnnouncementsController {
 		* @return 
 		* @since JDK 1.8
 	 */
-	
-	@InitBinder
-	public void dateHandler(WebDataBinder wdb){
-	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-	    sdf.setLenient(true);
-	    wdb.registerCustomEditor(Date.class,new CustomDateEditor(sdf,true));
-	}
-	
 	@RequestMapping("/list")
 	@ResponseBody
 	public EUDataGridResult getAnnoList(Integer page, Integer rows) {

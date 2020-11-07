@@ -74,7 +74,23 @@
 
 	//根据检索条件查找匹配的公告内容
 	punishmentSearch = function (){
-		$('#punishmentDatagrid').datagrid('load',serializeToObject($('#role_search').form()));	
+		//获取指定的创建时间
+		var createdate = $("#createtime").datetimebox('getValue');
+		var time1 = createdate;
+		//如果查询条件中的创建时间不未空
+		if(createdate != ""){
+			//将创建时间格式成时间戳格式的时间对象
+			createdate = new Date(new Date(createdate).getTime());
+		}else{	//创建时间没有指定，将查询时间指定未空
+			createdate = new Date(null);
+		}
+		//将查询条件中创建时间设置为时间对象（保证时间可以被后台接受）
+		$("#createtime").textbox('setValue',createdate);
+		
+		$('#punishmentDatagrid').datagrid('load',serializeToObject($('#role_search').form()));
+		//为保持页面显示的友好
+		$("#createtime").textbox('setValue',time1);
+		
 	}
 		
 	//清空查询条件
@@ -118,17 +134,7 @@
 			striped:true,
 			columns:[[
 				{field:'id',width:80,title:'序号',checkbox:true},
-				{field:'person',width:100,title:'被处罚人',sortable:true,formatter:function(param){
-					var name1 = "匿名";
-					$.ajaxSettings.async = false;
-					$.post('/Employee/getEmpName',{no:param},function(data){
-						if (data.status == 200) {
-							name1= data.data.name;
-						}
-					});
-					$.ajaxSettings.async = true;
-					return name1;
-				}},
+				{field:'person',width:100,title:'被处罚人',sortable:true},
 				{field:'resone',width:80,title:'处罚原因',sortable:true},
 				{field:'describ',width:80,title:'事件描述',sortable:true},
 				{field:'result',width:80,title:'处罚结果',sortable:true},

@@ -122,32 +122,9 @@
 
 	//根据检索条件查找匹配的公告内容
 	depSearch = function (){
-		//获取指定的创建时间
-		var createdate = $("#createtime").datetimebox('getValue');
-		var time1 = createdate;
-		//如果查询条件中的创建时间不未空
-		if(createdate != ""){
-			//将创建时间格式成时间戳格式的时间对象
-			createdate = new Date(new Date(createdate).getTime());
-		}else{	//创建时间没有指定，将查询时间指定未空
-			createdate = new Date(null);
-		}
-		//将查询条件中创建时间设置为时间对象（保证时间可以被后台接受）
-		$("#createtime").textbox('setValue',createdate);
-		//处理修改时间的格式问题，方法同“创建日期”
-		var modifytime = $("#modifytime").datetimebox('getValue');
-		//console.log(typeof(modfytime));
-		var time2 = modifytime;
-		if(modifytime != ""){	
-			modifytime = new Date(new Date(modifytime).getTime());	
-		}else{
-			modifytime = new Date(null);
-		}
-		$("#modifytime").textbox('setValue',modifytime);
+		
 		$('#Depdatagrid').datagrid('load',serializeToObject($('#role_search').form()));
-		//为保持页面显示的友好
-		$("#createtime").textbox('setValue',time1);
-		$("#modifytime").textbox('setValue',time2);
+	
 	}
 		
 	//清空查询条件
@@ -165,6 +142,8 @@
 			$("#Depdatagrid").datagrid('insertRow',{
 				index: 0,	// 索引从0开始
 				row: {
+					createtime: new Date(),
+					modifytime:new Date()
 				}
 			})
 			$("#Depdatagrid").datagrid('beginEdit',0);
@@ -338,7 +317,8 @@
 				if(update.length > 0){
 					url = '/Deportment/updata';
 					message = '更新部门成功';
-					
+					rowData.createtime = new Date(rowData.createtime);
+					rowData.modifytime = new Date(rowData.modifytime);
 				}
 				$.post(url,rowData,function(data){
 					if (data.status == 200) {
@@ -347,7 +327,7 @@
 						$("#Depdatagrid").datagrid('unselectAll');
 						$("#Depdatagrid").datagrid("acceptChanges");
 					}else{
-						$.messager.alert('提示',data.msg);
+						$.messager.alert('提示',data.get(msg));
 					}
 				})
 				

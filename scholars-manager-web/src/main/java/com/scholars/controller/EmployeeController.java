@@ -1,11 +1,9 @@
 package com.scholars.controller;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import org.apache.xmlbeans.impl.validator.ValidatingInfoXMLStreamReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -13,6 +11,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.WebRequest;
 
 import com.scholars.pojo.Employee;
 import com.scholars.service.IEmployeeService;
@@ -38,12 +37,15 @@ public class EmployeeController {
 	@Autowired
 	private IEmployeeService employeeService;
 	
-	@InitBinder
-	public void dateHandler(WebDataBinder wdb){
-	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-	    sdf.setLenient(true);
-	    wdb.registerCustomEditor(Date.class,new CustomDateEditor(sdf,true));
-	}
+	//将字符串转换为Date类
+    @InitBinder
+    public void initBinder(WebDataBinder binder, WebRequest request) {
+        //转换日期格式
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        //注册自定义的编辑器
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+        
+    }
 	
 	@RequestMapping("/Datagrid")
 	@ResponseBody
@@ -91,33 +93,6 @@ public class EmployeeController {
 	@ResponseBody
 	public TaotaoResult updataEmployee(Employee employee) {
 		TaotaoResult result = employeeService.updataEmployee(employee);
-		return result;
-	}
-	
-	@RequestMapping("/employees")
-	@ResponseBody
-	public List<Employee> getEmployeesByDep(String depName){
-		List<Employee> list = employeeService.getEmployeesByDepartment(depName);
-		return list;
-	}
-	
-	@RequestMapping("/nameList")
-	@ResponseBody
-	public List<Employee> getEmployeesByRole(String roleName){
-		List<Employee> empList = new ArrayList<Employee>();
-		String[] split = roleName.split(",");
-		for (int i = 0; i < split.length; i++) {
-			List<Employee> list = employeeService.getEmployeesByRole(split[i]);
-			empList.addAll(list);
-		}
-		
-		return empList;
-	}
-	
-	@RequestMapping("/getEmpName")
-	@ResponseBody
-	public TaotaoResult getEmployeeName(String no) {
-		TaotaoResult result = employeeService.empNamebyNo(no);
 		return result;
 	}
 }

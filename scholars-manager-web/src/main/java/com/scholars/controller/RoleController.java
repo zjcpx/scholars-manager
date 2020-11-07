@@ -1,5 +1,6 @@
 package com.scholars.controller;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -11,9 +12,9 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.WebRequest;
 
 import com.scholars.pojo.Role;
-import com.scholars.service.IEmployeeService;
 import com.scholars.service.IRoleService;
 import com.zjcpx.pojo.EUDataGridResult;
 import com.zjcpx.pojo.TaotaoResult;
@@ -36,15 +37,15 @@ public class RoleController {
 	@Autowired
 	private IRoleService roleService;
 	
-	@Autowired
-	private IEmployeeService empService;
-	
-	@InitBinder
-	public void dateHandler(WebDataBinder wdb){
-	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-	    sdf.setLenient(true);
-	    wdb.registerCustomEditor(Date.class,new CustomDateEditor(sdf,true));
-	}
+	//将字符串转换为Date类
+    @InitBinder
+    public void initBinder(WebDataBinder binder, WebRequest request) {
+        //转换日期格式
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        //注册自定义的编辑器
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+        
+    }
 	
 	@RequestMapping("/list")
 	@ResponseBody
@@ -75,12 +76,8 @@ public class RoleController {
 	@ResponseBody
 	public TaotaoResult updateRole(Role role) {
 		String name = role.getRolename();
-		Long id = role.getId();
 		if(roleService.isSameName(name)) {
-			String originRoleName = roleService.originRoleName(id);
 			TaotaoResult result = roleService.UpdateRole(role);
-			
-			empService.changeInfo(name, originRoleName, null, null, null, null);
 			return result;
 		}else {
 			return TaotaoResult.build(500, "角色名已存在，请更正");

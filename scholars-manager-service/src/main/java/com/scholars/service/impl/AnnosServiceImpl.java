@@ -175,19 +175,4 @@ public class AnnosServiceImpl implements IAnnosService {
 		return list;
 	}
 
-	@Override
-	public TaotaoResult ChangeAnnoType(String oraginType,String newType) {
-		AnnoAnnouncementsExample example = new AnnoAnnouncementsExample();
-		Criteria criteria = example.createCriteria();
-		criteria.andTypeEqualTo(oraginType);
-		List<AnnoAnnouncements> list = annoMapper.selectByExampleWithBLOBs(example);
-		if(list != null && list.size() > 0) {
-			for (int i = 0; i < list.size(); i++) {
-				list.get(i).setType(newType);
-				annoMapper.updateByPrimaryKeyWithBLOBs(list.get(i));
-			}
-		}
-		return TaotaoResult.ok();
-	}
-
 }

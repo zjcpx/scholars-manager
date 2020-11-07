@@ -235,6 +235,76 @@ public class CourseExample {
             return (Criteria) this;
         }
 
+        public Criteria andCoursetypeIsNull() {
+            addCriterion("coursetype is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoursetypeIsNotNull() {
+            addCriterion("coursetype is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoursetypeEqualTo(String value) {
+            addCriterion("coursetype =", value, "coursetype");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoursetypeNotEqualTo(String value) {
+            addCriterion("coursetype <>", value, "coursetype");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoursetypeGreaterThan(String value) {
+            addCriterion("coursetype >", value, "coursetype");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoursetypeGreaterThanOrEqualTo(String value) {
+            addCriterion("coursetype >=", value, "coursetype");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoursetypeLessThan(String value) {
+            addCriterion("coursetype <", value, "coursetype");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoursetypeLessThanOrEqualTo(String value) {
+            addCriterion("coursetype <=", value, "coursetype");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoursetypeLike(String value) {
+            addCriterion("coursetype like", value, "coursetype");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoursetypeNotLike(String value) {
+            addCriterion("coursetype not like", value, "coursetype");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoursetypeIn(List<String> values) {
+            addCriterion("coursetype in", values, "coursetype");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoursetypeNotIn(List<String> values) {
+            addCriterion("coursetype not in", values, "coursetype");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoursetypeBetween(String value1, String value2) {
+            addCriterion("coursetype between", value1, value2, "coursetype");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoursetypeNotBetween(String value1, String value2) {
+            addCriterion("coursetype not between", value1, value2, "coursetype");
+            return (Criteria) this;
+        }
+
         public Criteria andStudypersonIsNull() {
             addCriterion("studyperson is null");
             return (Criteria) this;

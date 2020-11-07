@@ -17,7 +17,17 @@ import com.scholars.service.IPunishmentsService;
 import com.zjcpx.pojo.EUDataGridResult;
 import com.zjcpx.pojo.TaotaoResult;
 import com.zjcpx.utils.IDUtils;
-
+/**
+ * 
+	* ClassName: PunishmentsServiceImpl <br/> 
+	* Function: TODO 处罚管理Service. <br/> 
+	* Reason: TODO ADD REASON(可选). <br/> 
+	* date: 2020-9-24 11:36:12 <br/> 
+	* 
+	* @author Mike.Cai 
+	* @version  
+	* @since JDK 1.8
+ */
 @Service
 public class PunishmentsServiceImpl implements IPunishmentsService {
 
@@ -34,7 +44,10 @@ public class PunishmentsServiceImpl implements IPunishmentsService {
 			if (createtime != null) {
 				criteria.andCreatetimeGreaterThanOrEqualTo(createtime);
 			}
-			
+			String describ = punishment.getDescrib();
+			if (StringUtils.isNotBlank(describ)) {
+				criteria.andDescribLike("%"+describ+"%");
+			}
 			Long long1 = punishment.getId();
 			if(long1 != null) {
 				criteria.andIdEqualTo(long1);
@@ -55,7 +68,7 @@ public class PunishmentsServiceImpl implements IPunishmentsService {
 			
 			PageHelper.startPage(page, rows);
 			
-			List<Punishments> list = punishmentMapper.selectByExampleWithBLOBs(example);
+			List<Punishments> list = punishmentMapper.selectByExample(example);
 			
 			PageInfo<Punishments> info = new PageInfo<Punishments>(list);
 			
@@ -64,6 +77,7 @@ public class PunishmentsServiceImpl implements IPunishmentsService {
 		}
 		return result;
 	}
+
 	@Override
 	public TaotaoResult CreatePunishment(Punishments punishment) {
 		punishment.setId(IDUtils.genItemId());
@@ -83,6 +97,5 @@ public class PunishmentsServiceImpl implements IPunishmentsService {
 		// TODO Auto-generated method stub
 		return null;
 	}
-}
 
-	
+}

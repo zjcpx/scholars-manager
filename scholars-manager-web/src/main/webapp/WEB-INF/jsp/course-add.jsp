@@ -24,6 +24,10 @@
 	            <td><input class="easyui-textbox" type="text" name="coursename" id="coursename" data-options="required:true" style="width: 280px;"></input></td>
 	        </tr>
 	        <tr>
+	            <td>课程类型:</td>
+				<td><input style="width: 180px" type="text" class="easyui-combobox" name="coursetype" id="coursetype2"/></td>
+			</tr>
+	        <tr>
 	            <td>课程学分：</td>
 	            <td><input id= "scores" class="easyui-textbox" type="text" name="scores" data-options="required:true" style="width: 280px;"></input></td>
 	        </tr>
@@ -64,8 +68,17 @@
 <script type="text/javascript">
 	var annoAddEditor = $('#courseAddForm');
 
+	
 	//页面初始化完毕后执行此方法
 	$(function(){
+		
+		$("#coursetype2").combobox({
+			editable:false,
+			url:'/CourseType/list',
+			valueField:'typename',
+			textField:'typename'
+
+		})
 		//生成角色复选框
 		getRoleList();
 		
@@ -93,6 +106,7 @@
 			$("#roleSelect")[0].innerHTML = roleHtml;
 			$(".rolename").click(function(event) {
 				var roleArray = document.getElementsByName("roleSelector");
+				console.log(roleArray.length);
 				var roleList = [];
 				for(var j=0; j < roleArray.length; j++){
 					if(roleArray[j].checked == true){
@@ -100,6 +114,7 @@
 					};
 				}
 				var roleListString = roleList.join(",");
+				console.log(roleListString);
 				//必修人员名单
 				var nameList = [];
 				$.post('/Employee/nameList',{roleName:roleListString},function(data){

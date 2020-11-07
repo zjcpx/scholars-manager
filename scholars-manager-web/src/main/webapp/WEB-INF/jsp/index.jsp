@@ -10,6 +10,7 @@
 <script type="text/javascript" src="js/jquery-easyui-1.4.1/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="js/jquery.cookie.js"></script>
 <script type="text/javascript" src='js/datagrid-export.js'></script>
+<script type="text/javascript" src="js/taotao.js"></script>
 <%
 	String easyuiThemeName = "default";
 	Cookie cookies[] = request.getCookies();
@@ -64,8 +65,8 @@
 				</div>  
 			</div>
 			<!-- 个人 -->
-			<div id = "personCenter"  class = 'controlUnit'>
-				<span>个人中心</span>
+			<div id = "person"  class = 'controlUnit'>
+				<span id="changePassword" onclick="showPersonnalMenu();">个人中心</span>
 			</div>
 		</div>
 	</div>
@@ -79,6 +80,8 @@
 	         		<li data-options="attributes:{'url':'role-list'}">角色列表</li>
 	         		<li data-options="attributes:{'url':'department-list'}">部门列表</li>
 	         		<li data-options="attributes:{'url':'position-list'}">职位列表</li>
+	         		<li data-options="attributes:{'url':'admin-list'}">管理员列表</li>
+	         		<li data-options="attributes:{'url':'adminType-list'}">授权类型列表</li>
 	         	</ul>
          	</li>
          	<li>
@@ -93,18 +96,25 @@
 	         	</ul>
          	</li>
          	<li>
-         		<span>处罚管理</span>
+         		<span>职位管理</span>
          		<ul>
 	         		
-	         		<li data-options="attributes:{'url':'punishments-list'}">处罚记录</li>
+	         		<li data-options="attributes:{'url':'position-list'}">职位列表</li>
 	         		
+	         	</ul>
+         	</li>
+         	<li>
+         		<span>学习资料管理</span>
+         		<ul>
+	         		<li data-options="attributes:{'url':'material-list'}">学习资料列表</li>
+	         		<li data-options="attributes:{'url':'materialtype-list'}">学习资料类型列表</li>
 	         	</ul>
          	</li>
          	<li>
          		<span>课程管理</span>
          		<ul>
-	         		<li data-options="attributes:{'url':'courses-list'}">课程清单</li>
-	         		<li data-options="attributes:{'url':'content'}">内容管理</li>
+	         		<li data-options="attributes:{'url':'courses-list'}">课程明细</li>
+	         		<li data-options="attributes:{'url':'coursesType-list'}">课程类型明细</li>
 	         	</ul>
          	</li>
          </ul>
@@ -115,9 +125,62 @@
 
 		</div>
     </div>
+    <!-- 登录窗口 -->
+    <div id="loginWindow" class="easyui-window" title="登陆窗口" style="width:300px;height:200px;padding: 30px;" data-options="modal:true,closable:false,resizable:false,maximizable:false,collapsible:false,minimizable:false">
+    	<form action="" method="post" id="login">
+    		<div style="margin-top: 10px">   
+		        <label for="name">用户名:</label>   
+				<input class="easyui-validatebox" type="text" name="empno" id="loginName" data-options="required:true" />   
+		    </div>   
+		    <div style="margin-top: 10px">   
+				<label for="password">密&nbsp;&nbsp;&nbsp;码:</label>   
+				<input class="easyui-validatebox" type="password" name="password" id="loginPassword" data-options="required:true" />   
+		    </div>   
+    	</form>
+    	<div style="margin-left:80px;margin-top:15px">
+		    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">提交</a>
+		    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">重置</a>
+		</div>
+    </div>
+    !-- 修改密码窗口 -->
+    <div id="changePasswordWindow" class="easyui-window" title="修改密码" style="width:350px;height:250px;padding: 30px;" data-options="modal:true,resizable:false,maximizable:false,collapsible:false,minimizable:false">
+    	<form action="" method="post" id="changepassord">
+    		<div style="margin-top: 10px">   
+		        <label style="display:inline-block;width:70px;text-align: right;" for="name">原密码:</label>   
+				<input class="easyui-validatebox" type="password" name="originPassword" id="originPassword" data-options="required:true" />   
+		    </div>   
+		    <div style="margin-top: 10px">   
+				<label style="display:inline-block;width:70px;text-align: right;" for="password">新密码:</label>   
+				<input class="easyui-validatebox" type="password" name="newpassword" id="newpassword" data-options="required:true" />   
+		    </div> 
+		    <div style="margin-top: 10px">   
+				<label style="display:inline-block;width:70px;text-align: right;" for="password">确认新密码:</label>   
+				<input class="easyui-validatebox" type="password" name="confirmpassword" id="confirmpassword" data-options="required:true" />   
+		    </div>     
+    	</form>
+    	<div style="margin-left:80px;margin-top:15px">
+		    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitChangeForm()">提交</a>
+		    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">重置</a>
+		</div>
+    </div>
+    <!-- 个人中心菜单 -->
+    <div id="personnalMenu" class="easyui-menu" style="width:120px;">   
+	    <div onclick="changeaccount()">更换账号</div>   
+	      
+	    <div onclick="changepassword()">更换密码</div>   
+	</div>  
+
     
 <script type="text/javascript">
 $(function(){
+	//判断是否已经登录
+	var currName = getCookie("loginName");
+	if(currName){
+		$("#loginWindow").window('close');
+	}
+	//弹出登陆窗口
+	$("#changePasswordWindow").window('close');
+
 	var curWwwPath = window.document.location.href;
 	var pathName = window.document.location.pathname;
 	var pos = curWwwPath.indexOf(pathName);
@@ -128,6 +191,8 @@ $(function(){
 		this.style.cursor = 'pointer';
 		
 	});
+
+	
 	//控制修改皮肤的显示位置
 	$('#changeTheme').click(function(e){
 		var X = $('#changeTheme').offset().top;
@@ -162,6 +227,67 @@ $(function(){
 		}
 	});
 });
+	//提交表单
+	function submitForm(){
+		//有效性验证
+		if(!$('#login').form('validate')){
+			$.messager.alert('提示','表单还未填写完成!');
+			return ;
+		}
+		$.post("/Authorize/login",{"empNO":$("#loginName").val(),"password":$("#loginPassword").val()}, function(data){
+			if(data.status == 200){
+				$.messager.alert('提示','登陆成功!');
+				//console.log($("#loginName").val());
+				setCookie("loginName",$("#loginName").val());
+				$("#loginWindow").window('close');	
+			}else{
+				$.messager.alert("提示",data.msg);
+			}
+
+		});
+	}
+	
+	function clearForm(){
+		$('#login').form('reset');
+		itemAddEditor.html('');
+	}
+
+	function showPersonnalMenu(){
+		var X = $('#changePassword').offset().top;
+		var Y = $('#changePassword').offset().left;
+		$('#personnalMenu').menu('show', {    
+			  left: Y,    
+			  top: X+16    
+			});  
+	}
+
+	function changepassword(){
+		$("#changePasswordWindow").window("open");
+	}
+
+	function changeaccount(){
+		$("#loginWindow").window("open");
+	}
+
+	function submitChangeForm(){
+		if(!$("#changepassord").form("validate")){
+			$.messager.alert("提示","还有必要的信息未填写");
+			return;
+		}else{
+			if (!($("#newpassword")[0].value == $("#confirmpassword")[0].value)) {
+				$.messager.alert("提示","新密码不相同");
+				return;
+			}
+		}
+		$.post("/Authorize/changePassword",{"empNo":getCookie("loginName"),"originpassword":$("#originPassword").val(),"newPassword":$("#confirmpassword").val()},function(data){
+			if (data.status == 200) {
+				$("#changePasswordWindow").window("close");
+				$.messager.alert("提示","密码修改成功");
+			}else{
+				$.messager.alert("提示",data.msg);
+			}
+		})
+	}
 </script>
 </body>
 </html>

@@ -12,12 +12,13 @@
 					<td><input style="width: 180px" type="text" name="studyperson" id="studyperson" class="easyui-textbox"></td>
 					<th style="width: 70px;text-align: right;">课程学分</th>
 					<td><input style="width: 180px" name="scores" id="scores" class="easyui-numberbox"></td>
-					
+					<th style="width: 80px;text-align: right;">课程作者</th>
+					<td><input style="width: 180px" type="text" class="easyui-textbox" name="author" id="author" placehold="0"></td>
 				</tr>
 				
 				<tr>
-					<th style="width: 80px;text-align: right;">课程作者</th>
-					<td><input style="width: 180px" type="text" class="easyui-textbox" name="author" id="author" placehold="0"></td>
+					<th style="width: 80px;text-align: right;">课程类型</th>
+					<td><input style="width: 180px" type="text" class="easyui-combobox" name="coursetype" id="coursetype" placehold="0"></td>
 					<th style="width: 70px;text-align: right;">截止时间</th>
 					<td>
 						<input id = "dateline" style="width: 180px" name='dateline' class='easyui-datetimebox' style="width: 155px" editable='false'/>
@@ -26,13 +27,13 @@
 					<td>
 						<input id = "createtime" style="width: 180px" name='createtime' class='easyui-datetimebox' style="width: 155px" editable='false'/>
 					</td>
-				</tr>
-				<tr>	
+					
 					<th style="width: 70px;text-align: right;">修改时间</th>
 					<td>
 						<input id = "modifytime" style="width: 180px" name='modifytime' class='easyui-datetimebox' style="width: 155px" editable='false'/>
 					</td>
-					
+				</tr>
+				<tr>	
 					<th >
 						<a style="width: 100px" href="javascript:void(0)" class="easyui-linkbutton" onclick = 'courseSearch();'>根据条件查询</a>
 					</th>
@@ -51,7 +52,7 @@
 </div>
 <!-- 右键菜单 -->
 <div id = "annoOpMenu" class="easyui-menu" style="width:80px;display:none;">
-	<div onclick = 'addCourse()' iconCls = 'icon-add'>新建</div>
+	<div onclick = 'addCourseType()' iconCls = 'icon-add'>新建</div>
 	<div onclick = 'editCourse()' iconCls = 'icon-edit'>编辑</div>
 	<div onclick = 'removeCourse()' iconCls = 'icon-remove'>删除</div>
 </div>
@@ -64,6 +65,13 @@
 
 <script type="text/javascript" charset="utf-8">
 
+	$("#coursetype").combobox({
+		editable:false,
+		url:'/CourseType/list',
+		valueField:'typename',
+		textField:'typename'
+
+	})
 
 	//确认是否保存修改
 	confirm = function(Object,editRow){
@@ -89,7 +97,6 @@
 	courseSearch = function (){
 		
 		$('#coursedatagrid').datagrid('load',serializeToObject($('#course_search').form()));
-		
 	}
 		
 	//清空查询条件
@@ -100,7 +107,7 @@
 	}
 		
 	//增加课程
-	addCourse = function(){
+	addCourseType = function(){
 		var tabs = $("#tabs");
 		var tab = tabs.tabs("getTab",'新增课程');
 		if(tab){
@@ -191,10 +198,11 @@
 				{field:'id',width:80,title:'序号',checkbox:true},
 				{field:'coursename',width:100,title:'课程名称',sortable:true},
 				{field:'coursecontents',width:100,title:'课程内容'},
+				{field:'coursetype',width:100,title:'课程类型'},
 				{field:'scores',width:30,title:'课程学分',sortable:true},
 				{field:'studyperson',width:60,title:'必修人员'},
 				{field:'author',width:60,title:'课程作者',sortable:true},
-				{field:'dateline',width:70,title:'完成时间',sortable:true,formatter:function(param){
+				{field:'dateline',width:70,title:'截止时间',sortable:true,formatter:function(param){
 					return new Date(param).format("yyyy/MM/dd hh:mm:ss");}},
 				{field:'createtime',width:70,title:'初建时间',sortable:true,formatter:function(param){
 					return new Date(param).format("yyyy/MM/dd hh:mm:ss");
@@ -208,7 +216,7 @@
 				iconCls:'icon-add',
 				handler:function(){
 					//新增tab方式实现增加课程
-					addCourse();
+					addCourseType();
 				}
 			},'-',{
 				text:'删除',

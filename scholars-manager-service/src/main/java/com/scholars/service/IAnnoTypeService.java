@@ -3,8 +3,6 @@ package com.scholars.service;
 import java.util.List;
 
 import com.scholars.pojo.AnnoType;
-import com.zjcpx.pojo.EUDataGridResult;
-import com.zjcpx.pojo.TaotaoResult;
 
 /**
  * 
@@ -23,12 +21,5 @@ import com.zjcpx.pojo.TaotaoResult;
 public interface IAnnoTypeService {
 	
 	List<AnnoType> getAnnoTypeList();
-	EUDataGridResult getAnnoTypeGrid(Integer page,Integer rows,String sort,String order,AnnoType annoType);
-	TaotaoResult CreateAnnoType(AnnoType annoType);
-	TaotaoResult updataAnnoType(AnnoType annoType);
-	TaotaoResult deleteAnnoType(Long id);
-	Boolean isSameAnnoTypeName(String annoTypeName);
-	
-	
 
 }

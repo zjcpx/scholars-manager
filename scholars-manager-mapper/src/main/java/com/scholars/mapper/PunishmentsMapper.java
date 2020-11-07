@@ -16,21 +16,15 @@ public interface PunishmentsMapper {
 
     int insertSelective(Punishments record);
 
-    List<Punishments> selectByExampleWithBLOBs(PunishmentsExample example);
-
     List<Punishments> selectByExample(PunishmentsExample example);
 
     Punishments selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") Punishments record, @Param("example") PunishmentsExample example);
 
-    int updateByExampleWithBLOBs(@Param("record") Punishments record, @Param("example") PunishmentsExample example);
-
     int updateByExample(@Param("record") Punishments record, @Param("example") PunishmentsExample example);
 
     int updateByPrimaryKeySelective(Punishments record);
-
-    int updateByPrimaryKeyWithBLOBs(Punishments record);
 
     int updateByPrimaryKey(Punishments record);
 }

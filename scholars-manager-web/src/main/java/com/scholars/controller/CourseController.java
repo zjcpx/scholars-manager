@@ -1,5 +1,6 @@
 package com.scholars.controller;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -10,6 +11,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.WebRequest;
 
 import com.scholars.pojo.Course;
 import com.scholars.service.ICourseService;
@@ -36,17 +38,26 @@ public class CourseController {
 	private ICourseService courseServie;
 	
 	@InitBinder
-	public void dateHandler(WebDataBinder wdb){
-	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-	    sdf.setLenient(true);
-	    wdb.registerCustomEditor(Date.class,new CustomDateEditor(sdf,true));
-	}
+    public void initBinder(WebDataBinder binder, WebRequest request) {
+        //转换日期格式
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        //注册自定义的编辑器
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+        
+    }
 	
 	@RequestMapping("/grid")
 	@ResponseBody
 	public EUDataGridResult getCourseGrid(Integer page,Integer rows,String sort,String order,Course course) {
 		EUDataGridResult result = courseServie.getCourseGrid(page, rows, sort, order, course);
 		return result;
+	}
+	
+	@InitBinder
+	public void dateHandler(WebDataBinder wdb){
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	    sdf.setLenient(true);
+	    wdb.registerCustomEditor(Date.class,new CustomDateEditor(sdf,true));
 	}
 	
 	@RequestMapping("/save")

@@ -30,5 +30,4 @@ public interface IAnnosService {
 	EUDataGridResult getAnnoListByParam(int page,int rows,String sortName,String sortOrder,AnnoAnnouncements anno);
 	//获取所有公告信息
 	List<AnnoAnnouncements> getAllAnnoList();
-	TaotaoResult ChangeAnnoType(String oraginType,String newType);
 }

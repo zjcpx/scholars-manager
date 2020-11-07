@@ -235,6 +235,76 @@ public class PunishmentsExample {
             return (Criteria) this;
         }
 
+        public Criteria andDescribIsNull() {
+            addCriterion("describ is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescribIsNotNull() {
+            addCriterion("describ is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescribEqualTo(String value) {
+            addCriterion("describ =", value, "describ");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescribNotEqualTo(String value) {
+            addCriterion("describ <>", value, "describ");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescribGreaterThan(String value) {
+            addCriterion("describ >", value, "describ");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescribGreaterThanOrEqualTo(String value) {
+            addCriterion("describ >=", value, "describ");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescribLessThan(String value) {
+            addCriterion("describ <", value, "describ");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescribLessThanOrEqualTo(String value) {
+            addCriterion("describ <=", value, "describ");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescribLike(String value) {
+            addCriterion("describ like", value, "describ");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescribNotLike(String value) {
+            addCriterion("describ not like", value, "describ");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescribIn(List<String> values) {
+            addCriterion("describ in", values, "describ");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescribNotIn(List<String> values) {
+            addCriterion("describ not in", values, "describ");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescribBetween(String value1, String value2) {
+            addCriterion("describ between", value1, value2, "describ");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescribNotBetween(String value1, String value2) {
+            addCriterion("describ not between", value1, value2, "describ");
+            return (Criteria) this;
+        }
+
         public Criteria andResultIsNull() {
             addCriterion("result is null");
             return (Criteria) this;

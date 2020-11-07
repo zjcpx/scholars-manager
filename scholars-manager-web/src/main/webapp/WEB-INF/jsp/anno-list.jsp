@@ -39,7 +39,7 @@
 	</div>
 	<!-- 数据表格 -->
 	<div region = 'center' border = 'false' >
-		<table id = 'datagrid' style="height: 100%">
+		<table id = 'annodatagrid' style="height: 100%">
 		</table>
 	</div>
 </div>
@@ -86,7 +86,7 @@
 						if(data.status === 200){
 							$.messager.alert("提示","文件导入成功","success");
 							$("#inputDialog").window('close');
-							$("#datagrid").datagrid("load");
+							$("#annodatagrid").datagrid("load");
 						}else{
 							//失败
 						}
@@ -132,45 +132,22 @@
 
 	//获取选择的公告列表
 	function getSelections(){
-		var ids = $('#datagrid').datagrid("getSelections");
+		var ids = $('#annodatagrid').datagrid("getSelections");
 		return ids;
 	}
 
 	//根据检索条件查找匹配的公告内容
 	annoSearch = function (){
-		//获取指定的创建时间
-		var createdate = $("#createtime").datetimebox('getValue');
-		var time1 = createdate;
-		//如果查询条件中的创建时间不未空
-		if(createdate != ""){
-			//将创建时间格式成时间戳格式的时间对象
-			createdate = new Date(new Date(createdate).getTime());
-		}else{	//创建时间没有指定，将查询时间指定未空
-			createdate = new Date(null);
-		}
-		//将查询条件中创建时间设置为时间对象（保证时间可以被后台接受）
-		$("#createtime").textbox('setValue',createdate);
-		//处理修改时间的格式问题，方法同“创建日期”
-		var modifytime = $("#modifytime").datetimebox('getValue');
-		//console.log(typeof(modfytime));
-		var time2 = modifytime;
-		if(modifytime != ""){	
-			modifytime = new Date(new Date(modifytime).getTime());	
-		}else{
-			modifytime = new Date(null);
-		}
-		$("#modifytime").textbox('setValue',modifytime);
-		$('#datagrid').datagrid('load',serializeToObject($('#anno_search').form()));
-		//为保持页面显示的友好
-		$("#createtime").textbox('setValue',time1);
-		$("#modifytime").textbox('setValue',time2);
+		
+		$('#annodatagrid').datagrid('load',serializeToObject($('#anno_search').form()));
+
 	}
 		
 	//清空查询条件
 	annoRest = function(){
 		//把过滤条件中的内容置空
 		$('#anno_search ').form().find("input").val("");
-		$('#datagrid').datagrid('load',{});
+		$('#annodatagrid').datagrid('load',{});
 	}
 		
 	//增加公告
@@ -211,15 +188,15 @@
 					$.post('/anno/delete',{id:ids},function(data){
 						if (data.status == 200) {
 							$.messager.alert('提示','公告删除成功');
-							$("#datagrid").datagrid("load");
-							$("#datagrid").datagrid("acceptChanges");
+							$("#annodatagrid").datagrid("load");
+							$("#annodatagrid").datagrid("acceptChanges");
 							currentEditRow = undefined;
 						}else{
 							$.messager.alert('提示','公告删除失败');
 						}
 					})
 				}
-				$("#datagrid").datagrid("rejectChanges");
+				$("#annodatagrid").datagrid("rejectChanges");
 			})
 		}
 	} 
@@ -247,7 +224,7 @@
 
 	//初始化公告列表
 	$(function(){
-		$("#datagrid").datagrid({
+		$("#annodatagrid").datagrid({
 			title:'公告明细',
 			url:'anno/annoList2',
 			pagination:true,
@@ -349,14 +326,16 @@
 				iconCls:'icon-save',
 				handler:function(){
 					if(currEditRow != undefined){
-						$("#datagrid").datagrid('endEdit',currEditRow);
+						$("#annodatagrid").datagrid('endEdit',currEditRow);
 					}
 				}
 			},'-',{
 				text:'放弃修改',
 				iconCls:'icon-cancel',
 				handler:function(){
-					
+					$('annodatagrid').datagrid('rejectChanges');
+					$('annodatagrid').datagrid('unselectAll');
+					currEditRow = undefined;
 				}
 			},'-',{
 				text:'导入Excel',
@@ -371,7 +350,7 @@
 				iconCls:'icon-edit',
 				handler:function(){
 
-					$("#datagrid").datagrid('toExcel','Announcements.xls');
+					$("#annodatagrid").datagrid('toExcel','MaterialType.xls');
 				}
 			}],
 			onAfterEdit : function (rowIndex,rowData,changs){
@@ -383,24 +362,24 @@
 							$.post('/anno/update',rowData,function(data){
 								if(data.status == 200){
 									$.messager.alert('提示','公告更新成功!');
-									$("#datagrid").datagrid("load");
+									$("#annodatagrid").datagrid("load");
 								};
 							});
 						}else{
-							$("#datagrid").datagrid('rejectChanges');
+							$("#annodatagrid").datagrid('rejectChanges');
 						}
 					})
 				}
 				currEditRow = undefined;
-				$("#datagrid").datagrid('unselectAll');
+				$("#annodatagrid").datagrid('unselectAll');
 			},
 			
 			onDblClickRow:function(index, row){
 				if(currEditRow != undefined){
-					$("#datagrid").datagrid('endEdit',currEditRow);
+					$("#annodatagrid").datagrid('endEdit',currEditRow);
 				}else{
-					$("#datagrid").datagrid('beginEdit',index)
-					$("#datagrid").datagrid('selectRow',index)
+					$("#annodatagrid").datagrid('beginEdit',index)
+					$("#annodatagrid").datagrid('selectRow',index)
 					currEditRow = index;
 				}
 				
@@ -408,7 +387,7 @@
 			
 			onClickRow:function(index,row){
 				if(currEditRow != undefined){
-					$("#datagrid").datagrid('endEdit',currEditRow);
+					$("#annodatagrid").datagrid('endEdit',currEditRow);
 				}
 				
 			},

@@ -8,7 +8,7 @@ public class Position {
     private Long id;
 
     private String positionname;
-    
+
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date createtime;
 

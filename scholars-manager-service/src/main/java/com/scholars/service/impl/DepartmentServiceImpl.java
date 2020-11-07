@@ -115,10 +115,4 @@ public class DepartmentServiceImpl implements IDepartmentService {
 		return true;
 	}
 
-	@Override
-	public String originDep(Long id) {
-		Department department = departmentMappet.selectByPrimaryKey(id);
-		return department.getDepname();
-	}
-
 }

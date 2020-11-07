@@ -21,6 +21,12 @@
 	            </td>
 	        </tr>
 	        <tr>
+	            <td>课程类型:</td>
+	            <td>
+	            	<td><input id= "coursetype" class="easyui-textbox" type="text" name="coursetype" data-options="required:true" style="width: 280px;"></input></td></textarea>
+	            </td>
+	        </tr>
+	        <tr>
 	            <td>必修人员:</td>
 	            <td>
 	            	部门：<div id="roleSelect" style="display: inline-block;  margin-right: 10px">hello</div><br/>

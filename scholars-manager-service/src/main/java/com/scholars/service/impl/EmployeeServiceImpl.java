@@ -5,7 +5,6 @@ import java.util.List;
 
 
 import org.apache.commons.lang3.StringUtils;
-import org.aspectj.weaver.ast.And;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -157,91 +156,5 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		employeeMapper.deleteByPrimaryKey(id);
 		return TaotaoResult.ok();
 	}
-	@Override
-	public List<Employee> getEmployeesByDepartment(String depName) {
-		EmployeeExample example = new EmployeeExample();
-		Criteria criteria = example.createCriteria();
-		criteria.andDepEqualTo(depName);
-		List<Employee> list = employeeMapper.selectByExample(example);
-		return list;
-	}
-	
-	/**
-	 * 
-		* TODO 根据员工姓名查找员工编号. 
-		* @see com.scholars.service.IEmployeeService#getUserNameByNo(java.lang.Long)
-	 */
-	@Override
-	public String getUserNameByNo(String name) {
-		EmployeeExample example = new EmployeeExample();
-		Criteria criteria = example.createCriteria();
-		criteria.andNoEqualTo(name);
-		List<Employee> list = employeeMapper.selectByExample(example);
-		if(list != null && list.size() > 0) {
-			return list.get(0).getNo();
-		}
-		return "数据库中没有此员工";
-	}
-	@Override
-	public List<Employee> getEmployeesByRole(String roleNam) {
-		EmployeeExample example = new EmployeeExample();
-		Criteria criteria = example.createCriteria();
-		criteria.andRoleEqualTo(roleNam);
-		List<Employee> list = employeeMapper.selectByExample(example);
-		return list;
-	}
-	@Override
-	public TaotaoResult changeInfo(String newRoleName, String originRoleName,String newDep, String orginDep,String newPosi, String orginPsi) {
-		if (newRoleName != null && originRoleName != null) {
-			EmployeeExample example = new EmployeeExample();
-			Criteria criteria = example.createCriteria();
-			criteria.andRoleEqualTo(originRoleName);
-			List<Employee> list = employeeMapper.selectByExample(example);
-			if(list != null && list.size() > 0) {
-				for (int i = 0; i < list.size(); i++) {
-					list.get(i).setRole(newRoleName);
-					employeeMapper.updateByPrimaryKey(list.get(i));
-				}
-			}
-		}
-		if (newDep != null && orginDep != null) {
-			EmployeeExample example = new EmployeeExample();
-			Criteria criteria = example.createCriteria();
-			criteria.andDepEqualTo(orginDep);
-			List<Employee> list = employeeMapper.selectByExample(example);
-			if(list != null && list.size() > 0) {
-				for (int i = 0; i < list.size(); i++) {
-					list.get(i).setDep(newDep);
-					employeeMapper.updateByPrimaryKey(list.get(i));
-				}
-			}
-		}
-		if (newPosi != null && orginPsi != null) {
-			EmployeeExample example = new EmployeeExample();
-			Criteria criteria = example.createCriteria();
-			criteria.andPositionEqualTo(orginPsi);
-			List<Employee> list = employeeMapper.selectByExample(example);
-			if(list != null && list.size() > 0) {
-				for (int i = 0; i < list.size(); i++) {
-					list.get(i).setPosition(newPosi);
-					employeeMapper.updateByPrimaryKey(list.get(i));
-				}
-			}
-		}
-		
-		return TaotaoResult.ok();
-	}
-	@Override
-	public TaotaoResult empNamebyNo(String no) {
-		EmployeeExample example = new EmployeeExample();
-		Criteria criteria = example.createCriteria();
-		criteria.andNoEqualTo(no);
-		List<Employee> list = employeeMapper.selectByExample(example);
-		if (list != null && list.size() > 0) {
-			return TaotaoResult.ok(list.get(0));
-		}
-		return null;
-		
-	}
-	
+
 }
